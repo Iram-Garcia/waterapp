@@ -1,0 +1,2 @@
+C:/Users/maste/Documents/waterapp/android/app/.cxx/Debug/2634182s/x86_64/CMakeFiles/edit_cache.dir
+C:/Users/maste/Documents/waterapp/android/app/.cxx/Debug/2634182s/x86_64/CMakeFiles/rebuild_cache.dir

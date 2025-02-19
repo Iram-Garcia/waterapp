@@ -50,6 +50,12 @@ class _WaterTrackerPageState extends State<WaterTrackerPage> {
     });
   }
 
+  void _resetProgress() {
+    setState(() {
+      _waterDrank = 0.0;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -96,8 +102,10 @@ class _WaterTrackerPageState extends State<WaterTrackerPage> {
                 final result = await Navigator.push<double>(
                   context,
                   MaterialPageRoute(
-                    builder: (context) =>
-                        GeneralSettingsPage(initialDailyGoal: _dailyGoal),
+                    builder: (context) => GeneralSettingsPage(
+                      initialDailyGoal: _dailyGoal,
+                      onResetProgress: _resetProgress,
+                    ),
                   ),
                 );
                 if (result != null) {
@@ -341,7 +349,13 @@ class _WaterTrackerPageState extends State<WaterTrackerPage> {
 
 class GeneralSettingsPage extends StatefulWidget {
   final double initialDailyGoal;
-  const GeneralSettingsPage({super.key, required this.initialDailyGoal});
+  final VoidCallback onResetProgress;
+
+  const GeneralSettingsPage({
+    super.key,
+    required this.initialDailyGoal,
+    required this.onResetProgress,
+  });
 
   @override
   State<GeneralSettingsPage> createState() => _GeneralSettingsPageState();
@@ -357,6 +371,11 @@ class _GeneralSettingsPageState extends State<GeneralSettingsPage> {
   void initState() {
     super.initState();
     _dailyGoal = widget.initialDailyGoal;
+  }
+
+  void _resetProgress() {
+    widget.onResetProgress();
+    Navigator.pop(context);
   }
 
   @override
@@ -474,8 +493,7 @@ class _GeneralSettingsPageState extends State<GeneralSettingsPage> {
                             TextButton(
                               child: const Text('Reset'),
                               onPressed: () {
-                                // Add reset logic here
-                                Navigator.of(context).pop();
+                                _resetProgress();
                               },
                             ),
                           ],
